@@ -1,0 +1,31 @@
+I access the level and see:
+
+
+WELCOME TO THE UPPERCASE SHELL
+>> ls
+sh: 1: LS: not found
+>> 
+
+When I type $0 I get into interactive shell and execution of commands is possible.
+
+$0 in this case gives me /bin/sh shell
+
+so:
+
+$ ls -al
+total 28
+drwxr-xr-x  2 root     root     4096 Oct 16  2018 .
+drwxr-xr-x 41 root     root     4096 Oct 16  2018 ..
+-rw-r--r--  1 root     root      220 May 15  2017 .bash_logout
+-rw-r--r--  1 root     root     3526 May 15  2017 .bashrc
+-rw-r--r--  1 root     root      675 May 15  2017 .profile
+-rwsr-x---  1 bandit33 bandit32 7556 Oct 16  2018 uppershell
+
+uppershell gives is a setuid script and gives current user rights of bandit33 so:
+
+$ cat /etc/bandit_pass/bandit33
+c9c3199ddf4121b10cf581a98d51caee
+
+Good!
+
+Bandit32 is a last level, it's a pity as whole game was great, I learned a lot.

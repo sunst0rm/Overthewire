@@ -1,0 +1,51 @@
+I create a temporary directory,  git clone, check README.md file, changes and branch:
+
+bandit30@bandit:/tmp/tmp.SxuWGmS8el/repo$ cat README.md 
+just an epmty file... muahaha
+bandit30@bandit:/tmp/tmp.SxuWGmS8el/repo$ git show
+commit 3aa4c239f729b07deb99a52f125893e162daac9e
+Author: Ben Dover <noone@overthewire.org>
+Date:   Tue Oct 16 14:00:44 2018 +0200
+
+    initial commit of README.md
+
+diff --git a/README.md b/README.md
+new file mode 100644
+index 0000000..029ba42
+--- /dev/null
++++ b/README.md
+@@ -0,0 +1 @@
++just an epmty file... muahaha
+bandit30@bandit:/tmp/tmp.SxuWGmS8el/repo$ git branch -a
+* master
+  remotes/origin/HEAD -> origin/master
+  remotes/origin/master
+
+
+There is nothing in logs either:
+
+bandit30@bandit:/tmp/tmp.SxuWGmS8el/repo$ git log
+commit 3aa4c239f729b07deb99a52f125893e162daac9e
+Author: Ben Dover <noone@overthewire.org>
+Date:   Tue Oct 16 14:00:44 2018 +0200
+
+    initial commit of README.md
+
+By googling I found out a function called "tag":
+
+Tags are ref's that point to specific points in Git history. Tagging is generally used to capture a point in history that is used for a marked version release (i.e. v1.0.1). A tag is like a branch that doesn't change. Unlike branches, tags, after being created, have no further history of commits.
+
+So TL:DR it is a branch that has no history, let's chech if some tags exist:
+
+bandit30@bandit:/tmp/tmp.SxuWGmS8el/repo$ git tag
+help
+secret
+
+Great!
+
+bandit30@bandit:/tmp/tmp.SxuWGmS8el/repo$ git show secret 
+47e603bb428404d265f59c42920d81e5
+
+Gives password to bandit31
+
+

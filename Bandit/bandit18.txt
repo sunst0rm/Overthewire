@@ -1,0 +1,22 @@
+1. Goal
+
+The password for the next level is stored in a file readme in the homedirectory. Unfortunately, someone has modified .bashrc to log you out when you log in with SSH.
+
+2. Commands
+ssh, cat, ls
+
+3. Solution
+
+I know that password to bandit19 is in /home/bandit18/readme file but when I try access the server it logs me out automatically.
+
+Firstly, I tried to contrive using -o (option) flag but was only getting errors.
+
+After little googling, I found out it is possible to execute commands between '' marks typing them in the end. What about trying to cat readme file ?
+
+ssh -p 2220 bandit18@bandit.labs.overthewire.org 'exec cat /home/bandit18/readme'
+
+After being asked and typed previously copied password I got
+
+IueksS7Ubh8G3DCwVzrTd8rAVOwq3M5x
+
+Bingo, it worked!

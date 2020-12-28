@@ -1,0 +1,37 @@
+I see an executable check with setuid, I run it to see what it shows. It asks for password so to anaylise each step I run ltrace:
+
+leviathan1@leviathan:~$ ./check 
+password: love
+Wrong password, Good Bye ...
+leviathan1@leviathan:~$ ltrace ./check 
+__libc_start_main(0x804853b, 1, 0xffffd6a4, 0x8048610 <unfinished ...>
+printf("password: ")                                                                          = 10
+getchar(1, 0, 0x65766f6c, 0x646f6700password: 
+)                                                         = 10
+getchar(1, 0, 0x65766f6c, 0x646f6700
+)                                                         = 10
+getchar(1, 0, 0x65766f6c, 0x646f6700
+)                                                         = 10
+strcmp("\n\n\n", "sex")                                                                       = -1
+puts("Wrong password, Good Bye ..."Wrong password, Good Bye ...
+)                                                          = 29
++++ exited (status 0) +++
+
+
+It seems like there is a comparation function from C strcmp() which compares input with word "sex" and writes "Wrong password":
+
+The strcmp() compares two strings character by character
+
+I type "sex" then
+
+leviathan1@leviathan:~$ ./check 
+password: sex
+
+It turns out I'm logged as leviathan2, so:
+
+$ whoami
+leviathan2
+$ cat /etc/leviathan_pass/leviathan2
+ougahZi8Ta
+$ 
+

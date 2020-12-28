@@ -1,0 +1,31 @@
+I launch an executable and it asks for 4 digit code. There are many approaches, the easiest would be to bruteforce it so:
+
+```
+leviathan6@leviathan:~$ ls -al
+total 28
+drwxr-xr-x  2 root       root       4096 Aug 26  2019 .
+drwxr-xr-x 10 root       root       4096 Aug 26  2019 ..
+-rw-r--r--  1 root       root        220 May 15  2017 .bash_logout
+-rw-r--r--  1 root       root       3526 May 15  2017 .bashrc
+-r-sr-x---  1 leviathan7 leviathan6 7452 Aug 26  2019 leviathan6
+-rw-r--r--  1 root       root        675 May 15  2017 .profile
+
+leviathan6@leviathan:~$ ./leviathan6 
+usage: ./leviathan6 <4 digit code>
+
+
+```
+leviathan6@leviathan:~$ for i in {9999..0000}; do echo -ne "$i "; ./leviathan6 $i; done
+
+```
+
+It stops at 7123, so I quit the script and type the number:
+
+```
+leviathan6@leviathan:~$ ./leviathan6 7123
+$ whoami
+leviathan7
+$ cat /etc/leviathan_pass/leviathan7
+ahy7MaeBo9
+$ 
+```

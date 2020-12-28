@@ -1,0 +1,58 @@
+1. Goal
+Clone a repository and find a password
+
+2. Commands
+git
+
+3. Solution
+
+Like in previous levels, I created my own directory and cloned a repository there:
+
+mkdir /tmp/user
+cd /user
+git clone ssh://bandit29-git@localhost/home/bandit29-git/repo
+
+There is a single README.md file, so cat:
+
+cat README.md 
+# Bandit Notes
+Some notes for bandit30 of bandit.
+
+## credentials
+
+- username: bandit30
+- password: <no passwords in production!>
+
+It means simply that there are other branches and we are already in production one, so:
+
+git branch -a
+* (HEAD detached at origin/master)
+  master
+  remotes/origin/HEAD -> origin/master
+  remotes/origin/dev
+  remotes/origin/master
+  remotes/origin/sploits-dev
+
+Gives me a list of branches, let's jump to origin/dev
+
+git checkout origin/dev
+
+I type git show = to see the difference between commits and I get
+
+Author: Morla Porla <morla@overthewire.org>
+Date:   Tue Oct 16 14:00:41 2018 +0200
+
+    add data needed for development
+
+diff --git a/README.md b/README.md
+index 1af21d3..39b87a8 100644
+--- a/README.md
++++ b/README.md
+@@ -4,5 +4,5 @@ Some notes for bandit30 of bandit.
+ ## credentials
+ 
+ - username: bandit30
+-- password: <no passwords in production!>
++- password: 5b90576bedb2cc04c86a9e924ce42faf
+ 
+Correct!

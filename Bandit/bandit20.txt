@@ -1,0 +1,31 @@
+1. Goal
+
+There is a setuid binary in the homedirectory that does the following: it makes a connection to localhost on the port you specify as a commandline argument. It then reads a line of text from the connection and compares it to the password in the previous level (bandit20). If the password is correct, it will transmit the password for the next level (bandit21).
+
+NOTE: Try connecting to your own network daemon to see if it works as you think
+
+2. Commands
+ssh, nc, cat, bash, screen, tmux, Unix ‘job control’ (bg, fg, jobs, &, CTRL-Z, …)
+
+3. Solution
+
+I open tmux - Ctrl+b - % to get two simultaneous windows of same session.
+
+I set up netcat listening on random port 1234 and passing password of this level in first terminal:
+
+bandit20@bandit:~$ echo "GbKksEFF4yrVs6il55v6gwY5aVje5f0j" | nc -l -p  1234
+
+then switch to second, so Ctrl+b - arrow right,  and type:
+
+./suconnect 1234
+
+So it returns:
+
+Read: GbKksEFF4yrVs6il55v6gwY5aVje5f0j
+Password matches, sending next password
+
+and in the same time netcat in first terminal stops and give me password to bandit21:
+
+gE269g2h3mw3pwgrj0Ha9Uoqen1c9DGr
+
+
